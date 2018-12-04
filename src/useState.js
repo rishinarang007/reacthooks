@@ -5,9 +5,20 @@ const UseStateApp = () => {
   const [isOn, setOn] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: null, y: null });
 
-  useEffect(() => {
-    window.addEventListener("mousemove", handlemouseMove);
-  });
+  useEffect(
+    () => {
+      document.getElementById(
+        "countDiv"
+      ).innerHTML = `you have clicked ${count} times`;
+
+      window.addEventListener("mousemove", handlemouseMove);
+
+      return () => {
+        window.removeEventListener("mousemove", handlemouseMove);
+      };
+    },
+    [count]
+  );
 
   const handlemouseMove = event => {
     setMousePosition({
@@ -27,6 +38,7 @@ const UseStateApp = () => {
   return (
     <>
       <button onClick={increment}>Click this button {count}</button>
+      <div id="countDiv" />
       <h2>Toggle Light</h2>
       <img
         src={
